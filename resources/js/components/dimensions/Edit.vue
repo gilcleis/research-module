@@ -32,8 +32,7 @@
             }
         },
         created() {
-            this.axios
-                //.get(`http://localhost:8000/api/dimensions/${this.$route.params.id}`)
+            this.axios                
                 .get(`/api/dimensions/${this.$route.params.id}`)
                 .then((res) => {
                     this.dimension = res.data;

@@ -16,9 +16,9 @@ class QuestionController extends Controller
      */
     public function index()
     {
-       return  Question::when(request('category_id', '') != '', function ($query) {
-            $query->where('category_id', request('category_id'));
-        })->paginate(6);
+       return  Question::when(request('dimension_id', '') != '', function ($query) {
+            $query->where('dimension_id', request('dimension_id'));
+        })->orderBy('id','desc')->paginate(6);
     }
 
   
@@ -34,7 +34,7 @@ class QuestionController extends Controller
         $question = new Question($request->all());
         $question->save();
 
-        return response()->json('Product created!');
+        return response($question->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**

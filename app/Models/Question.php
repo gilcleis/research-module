@@ -9,7 +9,7 @@ class Question extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','dimension_id'];
+    protected $fillable = ['name','dimension_id','status'];
 
     public function dimension()
     {

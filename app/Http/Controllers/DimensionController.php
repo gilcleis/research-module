@@ -15,8 +15,7 @@ class DimensionController extends Controller
      */
     public function index()
     {
-        $dimensions = Dimension::paginate(5);
-        
+        $dimensions = Dimension::orderBy('id','desc')->paginate(6);        
         return $dimensions;    
     }
 
@@ -33,7 +32,6 @@ class DimensionController extends Controller
             'name' => $request->input('name'),          
         ]);
         $dimension->save();
-
         return response($dimension->jsonSerialize(), Response::HTTP_OK);
     }
 
@@ -72,12 +70,9 @@ class DimensionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-       
+    {       
         $dimension = Dimension::find($id);
-        //dd($dimension);
         $dimension->delete();
-        return response()->noContent();
-       
+        return response()->noContent();       
     }
 }
