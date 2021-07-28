@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-6" style="text-align: center    ;">       
-                <h2 class="text-center">Editar Dimenção</h2>
+                <h2 class="text-center">Editar Dimensão</h2>
             </div>  
             <div class="col-6" style="text-align: right    ;">
                 <router-link :to="{name: 'dimension.list'}" class="btn btn-primary" title="Voltar"><i class="fa fa-list-ul"></i></router-link>

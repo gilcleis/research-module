@@ -16,7 +16,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-       return  Question::when(request('dimension_id', '') != '', function ($query) {
+       return  Question::with('dimension')->when(request('dimension_id', '') != '', function ($query) {
             $query->where('dimension_id', request('dimension_id'));
         })->orderBy('id','desc')->paginate(6);
     }
@@ -30,7 +30,7 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(QuestionRequest $request)
-    {
+    {        
         $question = new Question($request->all());
         $question->save();
 
@@ -75,5 +75,23 @@ class QuestionController extends Controller
         $question = Question::find($id);
         $question->delete();
         return response()->noContent();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  $id
+     * @param  App\Http\Requests\QuestionRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function statusUpdate($id,Request $request)
+    {
+        $question = Question::find($id);
+        $request->validate([
+            'status'    => 'required|in:A,I',            
+        ]);
+        $question->update($request->all());
+        return response(null, Response::HTTP_OK);
+        
     }
 }

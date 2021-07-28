@@ -1,6 +1,6 @@
-// import ListQuestion from './components/questions/List.vue';
-// import CreateQuestion from './components/questions/Create.vue';
-// import EditQuestion from './components/questions/Edit.vue';
+import ListQuestion from './components/questions/List.vue';
+import CreateQuestion from './components/questions/Create.vue';
+import EditQuestion from './components/questions/Edit.vue';
 
 import ListDimension from './components/dimensions/List.vue';
 import CreateDimension from './components/dimensions/Create.vue';
@@ -12,21 +12,21 @@ export const routes = [
     //     path: '/',
     //     component: ListQuestion
     // },
-    // {
-    //     name: 'question.list',
-    //     path: '/questions',
-    //     component: ListQuestion
-    // },
-    // {
-    //     name: 'question.create',
-    //     path: '/questions/create',
-    //     component: CreateQuestion
-    // },
-    // {
-    //     name: 'question.edit',
-    //     path: '/questions/edit/:id',
-    //     component: EditQuestion
-    // },
+    {
+        name: 'question.list',
+        path: '/questions',
+        component: ListQuestion
+    },
+    {
+        name: 'question.create',
+        path: '/questions/create',
+        component: CreateQuestion
+    },
+    {
+        name: 'question.edit',
+        path: '/questions/edit/:id',
+        component: EditQuestion
+    },
 
     {
         name: 'dimension.list',
