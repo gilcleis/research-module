@@ -15,4 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::resource('/questions', QuestionController::class);
+Route::get('{any}', function () {
+    return view('app');
+})->where('any', '.*');

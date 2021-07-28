@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DimensionRequest;
 use App\Models\Dimension;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class DimensionController extends Controller
 {
@@ -14,72 +15,69 @@ class DimensionController extends Controller
      */
     public function index()
     {
-        //
+        $dimensions = Dimension::paginate(5);
+        
+        return $dimensions;    
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param App\Http\Requests\DimensionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DimensionRequest $request)
     {
-        //
+        $dimension = new Dimension([
+            'name' => $request->input('name'),          
+        ]);
+        $dimension->save();
+
+        return response($dimension->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Dimension  $dimension
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Dimension $dimension)
+    public function show($id)
     {
-        //
+        $dimension = Dimension::find($id);
+        return response($dimension->jsonSerialize(), Response::HTTP_OK);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Dimension  $dimension
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Dimension $dimension)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Dimension  $dimension
+     * @param  $id
+     * @param  @param App\Http\Requests\DimensionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Dimension $dimension)
+    public function update($id, DimensionRequest $request)
     {
-        //
+        $dimension = Dimension::find($id);
+        $dimension->update($request->all());
+        return response(null, Response::HTTP_OK);
+       
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Dimension  $dimension
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Dimension $dimension)
+    public function destroy($id)
     {
-        //
+       
+        $dimension = Dimension::find($id);
+        //dd($dimension);
+        $dimension->delete();
+        return response()->noContent();
+       
     }
 }
