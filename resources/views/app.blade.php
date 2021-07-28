@@ -7,7 +7,7 @@
     <meta name="csrf-token" value="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
 
-    <title>sMódulo de pesquisas</title>
+    <title>Módulo de pesquisas</title>
 
     <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet" />
 </head>
