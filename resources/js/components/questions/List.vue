@@ -23,7 +23,7 @@
                 <th>
 
                 </th>
-                <th>ID</th>
+                <!-- <th>ID</th> -->
                  <th>Nome</th>     
                 <th>Dimensão</th>
                 <th>Criado em</th>
@@ -33,15 +33,15 @@
             <tbody>
             <tr v-for="question in questions.data" :key="question.id">
                 <td>
-                    {{question.status}}
+                   
                     <div class="likes text-right">
-                        <a @click="sendStatus(question.status,question.id)" :class="{ active: question.status == 'A' }">
+                        <a @click="sendStatus(question,question.id)" :class="{ active: question.status == 'A' }">
                             <i class="fa fa-check-circle"></i> 
                         </a>
                     </div>
                      <!-- <input data-id="{{$user->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $user->status ? 'checked' : '' }}> -->
                 </td>
-                <td>{{ question.id }}</td>
+                <!-- <td>{{ question.id }}</td> -->
                 <td>{{ question.name }}</td>                
                 <td>{{ question.dimension.name}}</td>
                 <td>{{ question.created_at | formatDate }}</td>
@@ -129,35 +129,39 @@
                     }
                 })
             },
-            sendStatus: function (status,id) {                       
-                 this.$swal({
-                    title: 'Deseja altetar o Status de para ' +  (status == 'A' ? 'Inativo' : 'Ativo' ) ,
-                   
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    cancelButtonText:'Cancelar',
-                    confirmButtonText: 'Alterar'
-                }).then((result) => {
-                    if (result.value) {
-                        status = status === 'A' ? 'I' : 'A';
-                console.log(status,id)
-                        axios.patch('/api/questions/' + id,status)
+            sendStatus: function (question,id) {         
+                
+                question.status = question.status === 'A' ? 'I' : 'A';                        
+                        axios.patch('/api/questions/statusUpdate/' + id,question)
                             .then(response => {                                
-                                this.$swal({title:'Alterado com sucesso!',icon: 'success'});  
+                                //this.$swal({title:'Alterado com sucesso!',icon: 'success'});  
                                 this.getResults();
                             }).catch(error => {
                             this.$swal({ icon: 'error', title: 'Ocorreu um erro'});
                         });
-                    }
-                })
                 
-                //  this.axios
-                //     .patch('/api/questions/'+id, status)
-                //     .then((res) => {
-                //         this.$router.push({ name: 'question.list' });
-                //     });
+                //  this.$swal({
+                //     title: 'Deseja altetar o Status de para ' +  (question.status == 'A' ? 'Inativo' : 'Ativo' ) ,
+                   
+                //     icon: 'warning',
+                //     showCancelButton: true,
+                //     confirmButtonColor: '#3085d6',
+                //     cancelButtonColor: '#d33',
+                //     cancelButtonText:'Cancelar',
+                //     confirmButtonText: 'Alterar'
+                // }).then((result) => {
+                //     if (result.value) {
+                //         question.status = question.status === 'A' ? 'I' : 'A';                        
+                //         axios.patch('/api/questions/statusUpdate/' + id,question)
+                //             .then(response => {                                
+                //                 this.$swal({title:'Alterado com sucesso!',icon: 'success'});  
+                //                 this.getResults();
+                //             }).catch(error => {
+                //             this.$swal({ icon: 'error', title: 'Ocorreu um erro'});
+                //         });
+                //     }
+                // })
+             
         }           
         }
     }

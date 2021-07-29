@@ -86,6 +86,7 @@ class QuestionController extends Controller
      */
     public function statusUpdate($id,Request $request)
     {
+        
         $question = Question::find($id);
         $request->validate([
             'status'    => 'required|in:A,I',            

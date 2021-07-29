@@ -13,7 +13,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>ID</th>
+                <!-- <th>ID</th> -->
                  <th>
                    Nome da dimensão                    
                 </th>             
@@ -25,7 +25,7 @@
             </thead>
             <tbody>
             <tr v-for="dimension in dimensions.data" :key="dimension.id">
-                <td>{{ dimension.id }}</td>
+                <!-- <td>{{ dimension.id }}</td> -->
                 <td>{{ dimension.name }}</td>
                 <td>{{ dimension.created_at | formatDate }}</td>
                 <td>
@@ -83,9 +83,7 @@
                     if (result.value) {
                         axios.delete('/api/dimensions/' + id)
                             .then(response => {                                
-                                this.$swal({title:'Excluido com sucesso!',icon: 'success'});
-                                //let i = this.dimensions.map(data => data.id).indexOf(id);
-                                //this.dimensions.splice(i, 1)
+                                this.$swal({title:'Excluido com sucesso!',icon: 'success'});               
                                 this.getResults();
                             }).catch(error => {
                             this.$swal({ icon: 'error', title: 'Ocorreu um erro'});
