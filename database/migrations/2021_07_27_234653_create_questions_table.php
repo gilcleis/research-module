@@ -19,6 +19,7 @@ class CreateQuestionsTable extends Migration
             $table->string('status',1);
             $table->foreignId('dimension_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

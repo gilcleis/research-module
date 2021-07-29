@@ -13,7 +13,7 @@
                 <form @submit.prevent="addCategory">
                     <div class="form-group">
                         <label>Nome da Dimensão</label>
-                        <input type="text" class="form-control" v-model="dimension.name">
+                        <input type="text" class="form-control" v-model="dimension.name" required>
                     </div>                    
                     <button type="submit" class="btn btn-primary">Salvar</button>
                 </form>

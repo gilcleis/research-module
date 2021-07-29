@@ -13,11 +13,11 @@
                 <form @submit.prevent="updatequestion">
                     <div class="form-group">
                         <label>Nome</label>
-                        <input type="text" class="form-control" v-model="question.name">
+                        <input type="text" class="form-control" v-model="question.name" required>
                     </div>        
                     <div class="form-group">
                         <label>Dimensão</label>
-                         <select class="form-control" v-model="question.dimension_id">
+                         <select class="form-control" v-model="question.dimension_id" required>
                             <option v-for="dimension in dimensions"
                                 :value="dimension.id">{{ dimension.name }}</option>
                         </select>
