@@ -5,7 +5,8 @@
                 <h2 class="text-center">Lista de Dimensões</h2>
             </div>  
             <div class="col-6" style="text-align: right    ;">
-                <router-link :to="{name: 'dimension.create'}" class="btn btn-primary" title="Cadastrar novo"><i class="fa fa-plus"></i> Criar dimensão</router-link>
+                <router-link :to="{name: 'question.list'}" class="btn btn-secondary" title="Lista de Perguntas"> Perguntas</router-link>
+                <router-link :to="{name: 'dimension.create'}" class="btn btn-primary" title="Cadastrar Novo"><i class="fa fa-plus"></i> Criar Dimensão</router-link>
             </div>
         </div>
         
@@ -71,8 +72,7 @@
             },
             deleteDimension(id) {
                 this.$swal({
-                    title: 'Tem certeza que deseja excluir?',
-                    text: "Não será mais possivel reverter!",
+                    title: 'Tem certeza que deseja excluir?',                    
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -82,11 +82,12 @@
                 }).then((result) => {
                     if (result.value) {
                         axios.delete('/api/dimensions/' + id)
-                            .then(response => {                                
+                            .then(response => {                                                      
                                 this.$swal({title:'Excluido com sucesso!',icon: 'success'});               
                                 this.getResults();
-                            }).catch(error => {
-                            this.$swal({ icon: 'error', title: 'Ocorreu um erro'});
+                            }).catch(errors  => {
+                                  console.log(errors.response.data.error)    
+                            this.$swal({ icon: 'error', title: errors.response.data.error,});
                         });
                     }
                 })

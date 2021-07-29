@@ -7,11 +7,11 @@ import CreateDimension from './components/dimensions/Create.vue';
 import EditDimension from './components/dimensions/Edit.vue';
  
 export const routes = [
-    // {
-    //     name: 'question.list',
-    //     path: '/',
-    //     component: ListQuestion
-    // },
+    {
+        name: 'question.list',
+        path: '/',
+        component: ListQuestion
+    },
     {
         name: 'question.list',
         path: '/questions',

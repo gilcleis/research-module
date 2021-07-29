@@ -12,8 +12,8 @@
             <div class="col-md-6">
                 <form @submit.prevent="updatequestion">
                     <div class="form-group">
-                        <label>Nome</label>
-                        <input type="text" class="form-control" v-model="question.name" required>
+                        <label>Texto da pergunta</label>
+                        <input type="text" class="form-control" v-model.trim="question.name" required>
                     </div>        
                     <div class="form-group">
                         <label>Dimensão</label>

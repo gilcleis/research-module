@@ -9,13 +9,13 @@
             </div>
         </div>
         <div class="row">
+            
             <div class="col-md-6">
                 <form @submit.prevent="updateDimension">
                     <div class="form-group">
                         <label>Nome da dimensão</label>
-                        <input type="text" class="form-control" v-model="dimension.name" required>
-                    </div>
-                   
+                        <input type="text" class="form-control" v-model.trim="dimension.name" required>
+                    </div>                   
                     <button type="submit" class="btn btn-primary">Salvar</button>
                 </form>
             </div>
@@ -26,9 +26,8 @@
 <script>
     export default {
         data() {
-            return {
-        
-                dimension: {}
+            return {        
+                dimension: {},
             }
         },
         created() {
@@ -43,7 +42,12 @@
                 this.axios
                     .patch(`/api/dimensions/${this.$route.params.id}`, this.dimension)
                     .then((res) => {
+                        this.transacaoStatus = 'sucess'
                         this.$router.push({ name: 'dimension.list' });
+                    })
+                    .catch(erro => {
+                        console.log(erro.response.data)
+                        this.$swal({ icon: 'error', title: erro.response.data.errors.name[0]});                                               
                     });
             }
         }

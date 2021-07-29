@@ -13,7 +13,7 @@
                 <form @submit.prevent="addCategory">
                     <div class="form-group">
                         <label>Nome da Dimensão</label>
-                        <input type="text" class="form-control" v-model="dimension.name" required>
+                        <input type="text" class="form-control" v-model.trim="dimension.name" required>
                     </div>                    
                     <button type="submit" class="btn btn-primary">Salvar</button>
                 </form>
@@ -36,7 +36,9 @@
                     .then(response => (
                         this.$router.push({ name: 'dimension.list' })
                     ))
-                    .catch(err => console.log(err))
+                     .catch(erro => {                        
+                        this.$swal({ icon: 'error', title: erro.response.data.errors.name[0]});                                               
+                    })
                     .finally(() => this.loading = false)
             }
         }

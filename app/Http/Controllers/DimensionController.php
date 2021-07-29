@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DimensionRequest;
 use App\Models\Dimension;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class DimensionController extends Controller
 {
@@ -15,8 +17,8 @@ class DimensionController extends Controller
      */
     public function index()
     {
-        $dimensions = Dimension::orderBy('id','desc')->paginate(6);        
-        return $dimensions;    
+        $dimensions = Dimension::orderBy('name', 'asc')->paginate(6);
+        return $dimensions;
     }
 
 
@@ -29,7 +31,7 @@ class DimensionController extends Controller
     public function store(DimensionRequest $request)
     {
         $dimension = new Dimension([
-            'name' => $request->input('name'),          
+            'name' => $request->input('name'),
         ]);
         $dimension->save();
         return response($dimension->jsonSerialize(), Response::HTTP_OK);
@@ -59,8 +61,7 @@ class DimensionController extends Controller
     {
         $dimension = Dimension::find($id);
         $dimension->update($request->all());
-        return response(null, Response::HTTP_OK);
-       
+        return response($dimension, Response::HTTP_OK);
     }
 
     /**
@@ -71,8 +72,23 @@ class DimensionController extends Controller
      */
     public function destroy($id)
     {       
-        $dimension = Dimension::find($id);
-        $dimension->delete();
-        return response()->noContent();       
+        DB::beginTransaction();
+
+        try {
+            $dimension = Dimension::findOrFail($id); 
+            $dimension->forceDelete();
+            DB::rollback();
+    
+            $dimension = Dimension::findOrFail($id);
+            $dimension->delete();
+            DB::commit();
+
+        } catch (QueryException $e) {
+            DB::rollback();         
+            return response()->json(['error' => 'Não pode excluir uma dimensão que 
+            esteja vinculada á uma pergunta.'], 404);          
+        }
+        
+        return response(null, Response::HTTP_OK);
     }
 }

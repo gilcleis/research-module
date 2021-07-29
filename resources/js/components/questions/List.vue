@@ -1,16 +1,17 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-6" style="text-align: center    ;">       
+            <div class="col-6" style="text-align: center;">       
                 <h2 class="text-center">Lista de Perguntas</h2>
             </div>  
-            <div class="col-6" style="text-align: right    ;">
-                <router-link :to="{name: 'question.create'}" class="btn btn-primary" title="Cadastrar novo"><i class="fa fa-plus"></i> Criar Pergunta</router-link>
+            <div class="col-6" style="text-align: right;">
+                <router-link :to="{name: 'dimension.list'}" class="btn btn-secondary" title="Lista de Dimensões"> Dimensão</router-link>
+                <router-link :to="{name: 'question.create'}" class="btn btn-primary" title="Cadastrar Novo"><i class="fa fa-plus"></i> Criar Pergunta</router-link>
             </div>
         </div>
          <div class="row justify-content-between pb-4">
             <select v-model="params.dimension_id" class="form-control col-md-3">
-                <option value="">-- Seleione a Dimensão --</option>
+                <option value="">-- Selecione a Dimensão --</option>
                 <option v-for="dimension in dimensions" :value="dimension.id">
                     {{ dimension.name }}
                 </option>
@@ -110,7 +111,6 @@
             deleteQuestion(id) {
                 this.$swal({
                     title: 'Tem certeza que deseja excluir?',
-                    text: "Não será mais possivel reverter!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

@@ -23,8 +23,12 @@ class DimensionRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name'    => 'required',            
+        $id = $this->route()->parameter('dimension');
+        return [                     
+            'name' => [
+                'required',                
+                'unique:dimensions,name,' . $id ,   
+            ],
         ];
     }
 }
