@@ -70,8 +70,7 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update($id,QuestionRequest $request)
-    {
-        
+    {        
         $question = $this->questionService->update($id,$request->validated());
         return response()->json($question, 200);
     }
@@ -95,15 +94,10 @@ class QuestionController extends Controller
      * @param  App\Http\Requests\QuestionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function statusUpdate($id,Request $request)
-    {
-        
-         $question = Question::find($id);
-         $request->validate([
-             'status'    => 'required|in:A,I',            
-         ]);
-         $question->update($request->all());
-         return response(null, Response::HTTP_OK);
+    public function statusUpdate($id,QuestionRequest $request)
+    {                
+        $question = $this->questionService->statusUpdate($id,$request->validated());
+        return response()->json($question, 200);
                 
     }
 }

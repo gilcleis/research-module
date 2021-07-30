@@ -25,14 +25,8 @@ class QuestionRequest extends FormRequest
     {
        
         $rules =  [                     
-            'name' => 'required|unique:questions,name' ,     
-            'dimension_id' => 'required|exists:questions,id',
-            'status'    => 'required|in:A,I',        
-        ];
-        if (in_array($this->method(), ['PUT', 'PATCH'])) {
-            $id = $this->route()->parameter('question');
-            $rules['name'] = 'required|unique:questions,name,' . $id ;            
-        }
+            'name' => 'required' ,          
+        ];       
         return $rules;
 
     }
