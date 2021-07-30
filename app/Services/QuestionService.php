@@ -4,9 +4,9 @@
     namespace App\Services;
 
 
-    use App\Http\Requests\DimensionRequest;
-    use App\Models\Dimension;
-    use App\Repositories\DimensionRepository;
+    use App\Http\Requests\QuestionRequest;
+    use App\Models\Question;
+    use App\Repositories\QuestionRepository;
     use Exception;
     use Illuminate\Database\Eloquent\Collection;
     use Illuminate\Support\Facades\DB;
@@ -16,66 +16,66 @@
     use Throwable;
 
 
-    class DimensionService
+    class QuestionService
     {
-        protected DimensionRepository $dimensionRepository;
+        protected QuestionRepository $questionRepository;
 
         /**
-         * DimensionService constructor.
+         * QuestionService constructor.
          *
-         * @param  DimensionRepository  $dimensionRepository
+         * @param  QuestionRepository  $questionRepository
          */
-        public function __construct(DimensionRepository $dimensionRepository)
+        public function __construct(QuestionRepository $questionRepository)
         {
-            $this->dimensionRepository = $dimensionRepository;
+            $this->questionRepository = $questionRepository;
         }
 
         /**
-         * @return Dimension[]|Collection
+         * @return Question[]|Collection
          */
         public function getAll()
         {
-            return $this->dimensionRepository->getAll();
+            return $this->questionRepository->getAll();
         }
 
         /**
          * @param $id
          *
-         * @return Dimension|null
+         * @return Question|null
          */
         public function findById($id)
         {
-            return $this->dimensionRepository->findById($id);
+            return $this->questionRepository->findById($id);
         }
 
         /**
          * @param $data
          *
-         * @return Dimension|null
+         * @return Question|null
          */
         public function save($data)
         {
-            $rules     = new DimensionRequest();
+            $rules     = new QuestionRequest();
            
             $validator = Validator::make($data, $rules->rules());
             
             if ($validator->fails()) {
                 throw new InvalidArgumentException($validator->errors()->first());
             }
-            return $this->dimensionRepository->save($data);
+            return $this->questionRepository->save($data);
         }
 
         /**
          * @param $data
          * @param $id
          *
-         * @return Dimension
+         * @return Question
          * @throws Throwable
          */
         public function update($id,$data)
         {
             //dd($id,$data);
-            $rules     = new DimensionRequest();
+            $rules     = new QuestionRequest();
             $validator = Validator::make($data, $rules->rules());
 
             if ($validator->fails()) {
@@ -85,7 +85,7 @@
             DB::beginTransaction();
 
             try {
-                $model = $this->dimensionRepository->update($id,$data);
+                $model = $this->questionRepository->update($id,$data);
 
             } catch (Exception $e) {
                 DB::rollBack();
@@ -102,7 +102,7 @@
         /**
          * @param $id
          *
-         * @return Dimension
+         * @return Question
          * @throws Throwable
          */
         public function deleteById($id)
@@ -111,12 +111,49 @@
             DB::beginTransaction();
 
             try {
-                $model = $this->dimensionRepository->delete($id);
+                $model = $this->questionRepository->delete($id);
 
             } catch (Exception $e) {
                 DB::rollBack();
                 Log::info($e->getMessage());
                 throw new InvalidArgumentException('Não foi possível remover o registro');
+            }
+
+            DB::commit();
+
+            return $model;
+        }
+
+
+          /**
+         * @param $data
+         * @param $id
+         *
+         * @return Question
+         * @throws Throwable
+         */
+        public function statusUpdate($id,$data)
+        {
+            
+            $rules     = new QuestionRequest();
+            
+            $validator = Validator::make($data, $rules->rules());
+            
+
+            if ($validator->fails()) {
+                throw new InvalidArgumentException($validator->errors()->first());
+            }
+
+            DB::beginTransaction();
+
+            try {
+                $model = $this->questionRepository->update($id,$data);
+
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::info($e->getMessage());
+
+                throw new InvalidArgumentException('Não foi possível atualizar o registro');
             }
 
             DB::commit();

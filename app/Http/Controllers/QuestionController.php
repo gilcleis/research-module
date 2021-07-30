@@ -4,21 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\QuestionRequest;
 use App\Models\Question;
+use App\Services\QuestionService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class QuestionController extends Controller
 {
+
+    /**
+     * @var QuestionService
+     */
+    protected QuestionService $questionService;
+
+    /**
+     *
+     * @param  QuestionService  $questionService
+     *
+     */
+    public function __construct(QuestionService $questionService)
+    {
+        $this->questionService = $questionService;        
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-       return  Question::with('dimension')->when(request('dimension_id', '') != '', function ($query) {
-            $query->where('dimension_id', request('dimension_id'));
-        })->orderBy('id','desc')->paginate(6);
+    {   
+        $question = $this->questionService->getAll();
+        return response()->json($question, 200);
     } 
 
     /**
@@ -29,14 +45,8 @@ class QuestionController extends Controller
      */
     public function store(QuestionRequest $request)
     {   
-        try{     
-        $question = new Question($request->all());
-        $question->save();
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Erro ao cadastrar.'], 400); 
-        }
-
-        return response($question->jsonSerialize(), Response::HTTP_OK);
+        
+        return $this->questionService->save($request->validated());   
     }
 
     /**
@@ -47,8 +57,8 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        $question = Question::find($id);
-        return response($question->jsonSerialize(), Response::HTTP_OK);
+        
+        return $this->questionService->findById($id);
     }
 
   
@@ -61,18 +71,9 @@ class QuestionController extends Controller
      */
     public function update($id,QuestionRequest $request)
     {
-        // $question = Question::find($id);
-        // $question->update($request->all());
-        // return response(null, Response::HTTP_OK);
-
-        try{     
-            $question = Question::find($id);
-            $question->update($request->all());
-            } catch (Exception $e) {
-                return response()->json(['error' => 'Erro ao atualizar.'], 400); 
-            }
-    
-        return response($question->jsonSerialize(), Response::HTTP_OK);
+        
+        $question = $this->questionService->update($id,$request->validated());
+        return response()->json($question, 200);
     }
 
     /**
@@ -83,9 +84,8 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        $question = Question::find($id);
-        $question->delete();
-        return response()->noContent();
+        
+        return $this->questionService->deleteById($id);
     }
 
     /**
@@ -98,12 +98,12 @@ class QuestionController extends Controller
     public function statusUpdate($id,Request $request)
     {
         
-        $question = Question::find($id);
-        $request->validate([
-            'status'    => 'required|in:A,I',            
-        ]);
-        $question->update($request->all());
-        return response(null, Response::HTTP_OK);
-        
+         $question = Question::find($id);
+         $request->validate([
+             'status'    => 'required|in:A,I',            
+         ]);
+         $question->update($request->all());
+         return response(null, Response::HTTP_OK);
+                
     }
 }

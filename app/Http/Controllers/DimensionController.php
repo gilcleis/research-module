@@ -47,8 +47,11 @@ class DimensionController extends Controller
      */
     public function store(DimensionRequest $request)
     {
-        $dimension = $this->dimensionService->save($request->validated());        
-        return response()->json($dimension, 200);
+        // $dimension = $this->dimensionService->save($request->validated());        
+        // return response()->json($dimension, 200);
+
+        return $this->dimensionService->save($request->validated());        
+        
     }
 
     /**
@@ -58,8 +61,7 @@ class DimensionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-       
+    {       
         $dimension = $this->dimensionService->findById($id);
         return response($dimension->jsonSerialize(), Response::HTTP_OK);
     }
