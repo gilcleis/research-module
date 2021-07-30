@@ -43,7 +43,7 @@
         mounted() {
             axios.get('/api/dimensions')
                 .then(response => {
-                    console.log(response.data)
+                   
                     this.dimensions = response.data.data;
                 });
         },
@@ -54,7 +54,9 @@
                     .then(response => (
                         this.$router.push({ name: 'question.list' })
                     ))
-                    .catch(err => console.log(err))
+                    .catch(erro => {                        
+                        this.$swal({ icon: 'error', title: erro.response.data.errors.name[0]});                                               
+                    })
                     .finally(() => this.loading = false)
             }
         }

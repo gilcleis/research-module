@@ -23,9 +23,13 @@ class QuestionRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route()->parameter('dimension');
         return [
-            'name'    => 'required',
-            'dimension_id'    => 'required',
+            'name' => [
+                'required',                
+                'unique:dimensions,name,' . $id ,   
+            ],          
+            'dimension_id' => 'required|exists:dimensions,id'
         ];
     }
 }

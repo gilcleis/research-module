@@ -55,6 +55,9 @@
                     .patch(`http://localhost:8000/api/questions/${this.$route.params.id}`, this.question)
                     .then((res) => {
                         this.$router.push({ name: 'question.list' });
+                    })
+                    .catch(erro => {                        
+                        this.$swal({ icon: 'error', title: erro.response.data.errors.name[0]});                                               
                     });
             }
         }

@@ -19,9 +19,7 @@ class QuestionController extends Controller
        return  Question::with('dimension')->when(request('dimension_id', '') != '', function ($query) {
             $query->where('dimension_id', request('dimension_id'));
         })->orderBy('id','desc')->paginate(6);
-    }
-
-  
+    } 
 
     /**
      * Store a newly created resource in storage.
@@ -30,9 +28,13 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(QuestionRequest $request)
-    {        
+    {   
+        try{     
         $question = new Question($request->all());
         $question->save();
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Erro ao cadastrar.'], 400); 
+        }
 
         return response($question->jsonSerialize(), Response::HTTP_OK);
     }
@@ -59,9 +61,18 @@ class QuestionController extends Controller
      */
     public function update($id,QuestionRequest $request)
     {
-        $question = Question::find($id);
-        $question->update($request->all());
-        return response(null, Response::HTTP_OK);
+        // $question = Question::find($id);
+        // $question->update($request->all());
+        // return response(null, Response::HTTP_OK);
+
+        try{     
+            $question = Question::find($id);
+            $question->update($request->all());
+            } catch (Exception $e) {
+                return response()->json(['error' => 'Erro ao atualizar.'], 400); 
+            }
+    
+        return response($question->jsonSerialize(), Response::HTTP_OK);
     }
 
     /**

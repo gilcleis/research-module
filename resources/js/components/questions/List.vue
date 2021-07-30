@@ -123,7 +123,8 @@
                             .then(response => {                                
                                 this.$swal({title:'Excluido com sucesso!',icon: 'success'});  
                                 this.getResults();
-                            }).catch(error => {
+                            })
+                            .catch(error => {
                             this.$swal({ icon: 'error', title: 'Ocorreu um erro'});
                         });
                     }
