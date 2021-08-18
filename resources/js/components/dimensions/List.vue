@@ -86,7 +86,7 @@
                     if (result.value) {
                         axios.delete('/api/dimensions/' + id)
                             .then(response => {                                                      
-                                this.$swal({title:'Excluido com sucesso!',icon: 'success'});               
+                                this.$swal({title:'Excluido com sucesso!',icon: 'success'});                
                                 this.getResults();
                             }).catch(errors  => {      
                             console.log(errors.response.data)                                 
