@@ -46,16 +46,19 @@
     export default {
         data() {
             return {
-                dimensions: {}
+                dimensions: {},
+                interval:null
             }
         },
-        created() {
-            this.axios
-                .get('/api/dimensions/')
-                .then(response => {
-                    
-                    this.dimensions = response.data;
-                });
+         created() {            
+            this.getResults();
+            this.interval = setInterval(function () {
+                this.getResults();                  
+                //console.log(new Date(),this.interval)             
+            }.bind(this), 30000); 
+        },
+        beforeDestroy: function(){
+            clearInterval(this.interval);
         },
         
      
