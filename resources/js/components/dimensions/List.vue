@@ -88,8 +88,7 @@
                             .then(response => {                                                      
                                 this.$swal({title:'Excluido com sucesso!',icon: 'success'});                
                                 this.getResults();
-                            }).catch(errors  => {      
-                            console.log(errors.response.data)                                 
+                            }).catch(errors  => {                                                          
                             this.$swal({ icon: 'error', title: errors.response.data.message, text: errors.response.data.errors[0],});
                         });
                     }

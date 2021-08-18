@@ -6,6 +6,13 @@
 
 Projeto de uma API REST em PHP com framework Laravel, que permite criar, ler, atualizar e excluir registros em um banco de dados, front-end com Vue e Bootstrap.
 
+Pode-se criar, editar e excluir as perguntas e opções do instrumento.
+Para isso foram criado as telas:
+- Listagem de perguntas;
+- Criação/edição da pergunta;
+- Listagem de dimensões;
+- Criação/edição de dimensão;
+
 ![](./screen.png)
 
 ## Inicio <a name = "getting_started"></a>
