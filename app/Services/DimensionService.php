@@ -54,15 +54,17 @@
          * @return Dimension|null
          */
         public function save($data)
-        {
-            $rules     = new DimensionRequest();
-           
-            $validator = Validator::make($data, $rules->rules());
-            
-            if ($validator->fails()) {
-                throw new InvalidArgumentException($validator->errors()->first());
+        {                      
+            DB::beginTransaction();
+            try {
+                $model = $this->dimensionRepository->save($data);
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::info($e->getMessage());
+                throw new InvalidArgumentException('Não foi possível cadastrar o registro');
             }
-            return $this->dimensionRepository->save($data);
+            DB::commit();
+            return $model;
         }
 
         /**
@@ -74,28 +76,23 @@
          */
         public function update($id,$data)
         {
-            //dd($id,$data);
-            $rules     = new DimensionRequest();
-            $validator = Validator::make($data, $rules->rules());
-
-            if ($validator->fails()) {
-                throw new InvalidArgumentException($validator->errors()->first());
-            }
-
+      
+            // $rules     = new DimensionRequest();
+             //$validator = Validator::make($data->all(), $data->rules());
+            //dd($data);
+            // if ($validator->fails()) {
+            //     throw new InvalidArgumentException($validator->errors()->first());
+            // }
+            
             DB::beginTransaction();
-
             try {
                 $model = $this->dimensionRepository->update($id,$data);
-
             } catch (Exception $e) {
                 DB::rollBack();
                 Log::info($e->getMessage());
-
                 throw new InvalidArgumentException('Não foi possível atualizar o registro');
             }
-
             DB::commit();
-
             return $model;
         }
 
@@ -107,20 +104,15 @@
          */
         public function deleteById($id)
         {
-
             DB::beginTransaction();
-
             try {
                 $model = $this->dimensionRepository->delete($id);
-
             } catch (Exception $e) {
                 DB::rollBack();
                 Log::info($e->getMessage());
                 throw new InvalidArgumentException('Não foi possível remover o registro');
             }
-
             DB::commit();
-
             return $model;
         }
 

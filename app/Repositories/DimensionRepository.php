@@ -5,6 +5,7 @@
 
 
 use App\Models\Dimension;
+use App\Services\Message;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\QueryException;
@@ -109,8 +110,10 @@ class DimensionRepository
 
         } catch (QueryException $e) {
             DB::rollback();         
-            //return $e;  
-            return response()->json(['error' => 'Não pode excluir uma dimensão que esteja vinculada á uma pergunta.'], 404);          
+            $message = new Message('Exclusão Inválida',['Não pode excluir uma dimensão que esteja vinculada á uma pergunta.']);
+			return response()->json($message->getMessage(), 401);
+            //return response()->json(["message"=>"Exclusão Inválida", "error"=>"Não pode excluir uma dimensão que esteja vinculada á uma pergunta."], 404);          
+           
         }        
         return response(null, Response::HTTP_OK);
         }

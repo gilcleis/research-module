@@ -25,7 +25,9 @@ class QuestionRequest extends FormRequest
     {
        
         $rules =  [                     
-            'name' => 'required' ,          
+            'name' => 'required|unique:questions,name' ,     
+            'dimension_id' => 'required|exists:questions,id',
+            'status'    => 'required|in:A,I',        
         ];       
         return $rules;
 

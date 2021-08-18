@@ -33,9 +33,17 @@ class DimensionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $dimension = $this->dimensionService->getAll();
-        return response()->json($dimension, 200);
+    {            
+        $result = ['status' => Response::HTTP_OK];
+        try {
+            $dimension = $this->dimensionService->getAll();
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+        return response()->json($dimension, $result['status']);
     }
 
 
@@ -47,11 +55,16 @@ class DimensionController extends Controller
      */
     public function store(DimensionRequest $request)
     {
-        // $dimension = $this->dimensionService->save($request->validated());        
-        // return response()->json($dimension, 200);
-
-        return $this->dimensionService->save($request->validated());        
-        
+        $result = ['status' => Response::HTTP_CREATED];
+        try {
+            $dimension = $this->dimensionService->save($request->validated()); 
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+        return response()->json($dimension, $result['status']);        
     }
 
     /**
@@ -61,9 +74,17 @@ class DimensionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {       
-        $dimension = $this->dimensionService->findById($id);
-        return response($dimension->jsonSerialize(), Response::HTTP_OK);
+    {               
+        $result = ['status' => 200];
+        try {
+            $dimension = $this->dimensionService->findById($id);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+        return response()->json($dimension, $result['status']);
     }
 
 
@@ -75,9 +96,17 @@ class DimensionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update($id, DimensionRequest $request)
-    {
-        $dimension = $this->dimensionService->update($id,$request->validated());
-        return response()->json($dimension, 200);
+    {              
+        $result = ['status' => Response::HTTP_OK];
+        try {
+            $dimension = $this->dimensionService->update($id,$request->validated());
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+        return response()->json($dimension, $result['status']);
     }
 
     /**
@@ -88,7 +117,6 @@ class DimensionController extends Controller
      */
     public function destroy($id)
     {       
-        return $this->dimensionService->deleteById($id);
-        
+        return $this->dimensionService->deleteById($id);        
     }
 }

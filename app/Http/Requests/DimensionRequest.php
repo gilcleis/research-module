@@ -23,10 +23,17 @@ class DimensionRequest extends FormRequest
      */
     public function rules()
     {
-        
+
+        $id = $this->segment(3);
+ 
         $rules =  [                     
-            'name' => 'required' ,            
-        ];       
+            'name' => ['required',"unique:dimensions,name,{$id},id"] ,            
+        ];
+        if ($this->method() == 'PUT') {
+            $id = $this->route()->parameter('dimension');
+            $rules['name'] = 'required|unique:dimensions,name';            
+        }
+       // dd(request()->all(),$this->method(),$this->segment(3),$rules,$this->route());
         return $rules;
     }
 }
