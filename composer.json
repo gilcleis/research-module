@@ -3,6 +3,12 @@
     "type": "project",
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
+    "authors": [
+    {
+      "name": "Gilclei Araujo",
+      "email": "gilclei@gmail.com"
+    }
+    ],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
